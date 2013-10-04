@@ -160,7 +160,7 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
     }
 
     // Price for item should increase the more of the item you buy
-    return (item.basePrice * Math.pow(1.1, this.automations[key] + 1)).toFixed();
+    return (item.basePrice * Math.pow(1.2, this.automations[key])).toFixed();
   };
 
   Player.prototype.runAutomations = function () {

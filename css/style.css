@@ -17,7 +17,7 @@ body {
   border: 1px solid #3c561d;
 }
 
-.wrapper:after {
+.wrapper:after, .btn:after {
   display: block;
   content: "";
   clear: both;
@@ -30,7 +30,9 @@ body {
 }
 
 #hud {
-  margin-left: 326px;
+  float: left;
+  margin-left: 5px;
+  width: 173px;
 }
 
 #hud > ul {
@@ -59,14 +61,25 @@ body {
   display: block;
   color: #483018;
   border-radius: 3px;
-  padding: 6px 13px;
-  text-align: center;
+  padding: 6px 0;
+  padding-left: 6px;
+  text-align: left;
   font-weight: normal;
   text-decoration: none;
 }
 
+.btn span {
+  float: left;
+}
+
 .btn strong {
   display: block;
+}
+
+.btn-icon {
+  float: left;
+  margin-right: 6px;
+  margin-top: 2px;
 }
 
 .btn:hover {

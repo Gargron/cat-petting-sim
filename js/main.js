@@ -7,10 +7,14 @@ requirejs.config({
     'vendor/underscore': {
       exports: '_'
     }
+  },
+
+  paths: {
+    'jquery': 'vendor/jquery'
   }
 });
 
-require(['vendor/collie', 'models/game', 'models/ground', 'models/cat', 'models/counter', 'models/player', 'helpers'], function (collie, game, Ground, Cat, Counter, Player, helpers) {
+require(['jquery', 'vendor/collie', 'models/game', 'models/ground', 'models/cat', 'models/counter', 'models/player', 'helpers'], function ($, collie, game, Ground, Cat, Counter, Player, helpers) {
   var player, cat, ground, counter;
 
   collie.ImageManager.addImages({
@@ -54,23 +58,34 @@ require(['vendor/collie', 'models/game', 'models/ground', 'models/cat', 'models/
     player.registerAutomation('robohand');
   }, false);
 
-  // Update tab title with the current number of pets
   player.observe('sum', function (sum) {
+    // Update tab title with the current number of pets
     document.title = helpers.numberFormat(sum) + ' pets - Cat Petting Simulator 2014';
+
+    if (sum < player.getNextAutomationPrice('robohand')) {
+      $('#robohand-btn').css('opacity', 0.5);
+    } else {
+      $('#robohand-btn').css('opacity', 1);
+    }
+
+    if (sum < 100) {
+      $('#brush-btn').css('opacity', 0.5);
+    } else {
+      $('#brush-btn').css('opacity', 1);
+    }
   });
 
   // Update price and number when robohand number changes
   player.observe('automations.robohand', function (num) {
     var nextPrice = player.getNextAutomationPrice('robohand');
-    document.getElementById('robohand-btn').children[0].innerHTML = 'Robohand (' + num + ')';
-    document.getElementById('robohand-btn').childNodes[2].data = '1 pet/s, Costs ' + nextPrice;
+    $('#robohand-btn strong').html('Robohand (' + num + ')');
+    $('#robohand-btn span')[0].childNodes[2].data = '1 pet/s, Costs ' + nextPrice;
   });
 
   // Remove brush upgrade button when brush upgrade is purchased
   player.observe('upgrades.brush', function (has) {
     if (has) {
-      var btn = document.getElementById('brush-btn');
-      btn.parentNode.parentNode.removeChild(btn.parentNode);
+      $('#brush-btn').parent().remove();
     }
   });
 
