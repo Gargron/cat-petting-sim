@@ -69,10 +69,11 @@ body {
 }
 
 .btn span {
-  float: left;
+  font-size: 13px;
 }
 
 .btn strong {
+  font-style: 15px;
   display: block;
 }
 

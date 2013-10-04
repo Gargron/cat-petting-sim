@@ -79,7 +79,7 @@ require(['jquery', 'vendor/collie', 'models/game', 'models/ground', 'models/cat'
   player.observe('automations.robohand', function (num) {
     var nextPrice = player.getNextAutomationPrice('robohand');
     $('#robohand-btn strong').html('Robohand (' + num + ')');
-    $('#robohand-btn span')[0].childNodes[2].data = '1 pet/s, Costs ' + nextPrice;
+    $('#robohand-btn span')[0].childNodes[2].data = 'Costs ' + helpers.numberFormat(nextPrice);
   });
 
   // Remove brush upgrade button when brush upgrade is purchased

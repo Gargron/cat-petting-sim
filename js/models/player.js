@@ -15,6 +15,10 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
   // Achievements
   var achievsList = {
     'starter': ['i did it mom'],
+    'goodGoing': ['Good going!'],
+    'tooMuch': ['Cat status: Million Kelvin'],
+    'fellowship': ['Fellowship of the cat'],
+    'terminator': ['Terminator 20: Robohands']
   };
 
   var Player = extend(Observable, {
@@ -65,6 +69,25 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
     this.observe('sum', function (sum) {
       if (sum >= 1000) {
         self.registerAchievement('starter');
+      }
+
+      if (sum >= 10000) {
+        self.registerAchievement('goodGoing');
+      }
+
+      if (sum >= 1000000) {
+        self.registerAchievement('tooMuch');
+      }
+    });
+
+    // Watch out for robohand-related achievements
+    this.observe('automations.robohand', function (num) {
+      if (num >= 9) {
+        self.registerAchievement('fellowship');
+      }
+
+      if (num >= 50) {
+        self.registerAchievement('terminator');
       }
     });
   };
