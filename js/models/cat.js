@@ -9,23 +9,23 @@ define(['vendor/collie', 'models/hit'], function (collie, Hit) {
     this.displayObject = new collie.DisplayObject({
       x: x,
       y: y,
-      width: 30,
-      height: 30
+      width: 60,
+      height: 60
     }).addTo(layer);
 
     this.sprites['sitting'] = new collie.DisplayObject({
       x: 0,
       y: 0,
-      width: 30,
-      height: 30,
+      width: 60,
+      height: 60,
       backgroundImage: 'cat.sitting'
     }).addTo(this.displayObject);
 
     this.sprites['beingPetted'] = new collie.DisplayObject({
       x: 0,
       y: 0,
-      width: 30,
-      height: 30,
+      width: 60,
+      height: 60,
       visible: false,
       backgroundImage: 'cat.beingPetted'
     }).addTo(this.displayObject);
@@ -42,7 +42,7 @@ define(['vendor/collie', 'models/hit'], function (collie, Hit) {
     });
 
     this.animations['beingPetted'] = collie.Timer.cycle(this.sprites['beingPetted'], 300, {
-      to: 9,
+      to: 1,
       loop: 0,
       useAutoStart: false,
 

@@ -30,6 +30,7 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
       this.achievs     = {};
       this.sum         = 0;
       this.ppc         = 1;
+      this.pps         = 0;
 
       setTimeout(function () {
         // Doing save checking asynchronously so that
@@ -48,7 +49,8 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
   });
 
   Player.prototype.bindTimers = function () {
-    var self = this;
+    var self = this,
+      lastRun;
 
     // Save progress every minute
     setInterval(function () {
@@ -57,8 +59,17 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
     }, 1000 * 60);
 
     // Run automations 10 times per second
+    lastRun = new Date() * 1;
+
     setInterval(function () {
-      self.runAutomations();
+      var nowRun, delta;
+
+      nowRun = new Date() * 1;
+      delta  = nowRun - lastRun;
+
+      self.runAutomations(delta);
+
+      lastRun = new Date() * 1;
     }, 100);
   };
 
@@ -186,18 +197,23 @@ define(['models/observable', 'helpers', 'models/upgrades'], function (Observable
     return (item.basePrice * Math.pow(1.2, this.automations[key])).toFixed();
   };
 
-  Player.prototype.runAutomations = function () {
-    var key, item;
+  Player.prototype.runAutomations = function (delta) {
+    var key, item, sum, aggrSum;
 
-    // TODO: deltas for lags etc
+    aggrSum = 0;
+
     for (key in this.automations) {
       if (this.automations.hasOwnProperty(key)) {
         // Since this runs 10 times per second, and all base
         // values are "per second", we divide by 10
-        item = automationsList[key];
-        this.set('sum', this.sum + (item.basePps * this.automations[key] / 10));
+        item     = automationsList[key];
+        sum      = item.basePps * this.automations[key];
+        aggrSum += sum;
+        this.set('sum', this.sum + (sum * delta / 1000));
       }
     }
+
+    this.set('pps', aggrSum);
   };
 
   Player.prototype.registerClick = function () {

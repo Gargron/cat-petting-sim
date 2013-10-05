@@ -15,7 +15,7 @@ requirejs.config({
 });
 
 require(['jquery', 'vendor/collie', 'models/game', 'models/ground', 'models/cat', 'models/counter', 'models/player', 'helpers'], function ($, collie, game, Ground, Cat, Counter, Player, helpers) {
-  var player, cat, ground, counter;
+  var player, cat, ground, counter, ppsCounter;
 
   collie.ImageManager.addImages({
     'cat.sitting': 'img/pixelcat-sitting-sprite.png',
@@ -35,10 +35,11 @@ require(['jquery', 'vendor/collie', 'models/game', 'models/ground', 'models/cat'
   }));
 
   // Let's setup our actors
-  player  = new Player();
-  ground  = new Ground(0, 0, 320, 480, game.getLayer(0));
-  counter = new Counter('center', 100, game.getLayer(1), player, 'sum');
-  cat     = new Cat('center', 'center', game.getLayer(0), player);
+  player     = new Player();
+  ground     = new Ground(0, 0, 320, 480, game.getLayer(0));
+  counter    = new Counter('center', 100, game.getLayer(1), player, 'sum');
+  ppsCounter = new Counter('center', 135, game.getLayer(1), player, 'pps', ' pets/s', 15);
+  cat        = new Cat('center', 'center', game.getLayer(0), player);
 
   game.eachLayer(function (layer) {
     collie.Renderer.addLayer(layer);
